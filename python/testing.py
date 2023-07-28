@@ -4,10 +4,16 @@ id, password = idpassword
 api = OpenSkyApi(id,password)
 
 # SKW4734 at 1.42am on 28/7/2023
-s = api.get_states()
-f = open("states.csv", "w")
-f.write(s)
-f.close()
+#s = api.get_states()
+#print(s)
+
+import matplotlib.pyplot as plt
+from traffic.data import opensky
+from traffic.drawing import EuroPP, countries
+sv = opensky.api_states()
+df = sv.data.head
+print(df)
+
 #arrivals = api.get_arrivals_by_airport('WSSS',1690470000,1690478600)
 #for item in arrivals:
 #	print(item)
