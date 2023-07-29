@@ -4,13 +4,12 @@ import pandas as pd
 id, password = idpassword
 api = OpenSkyApi(id,password)
 
-def getFlightStates(bbox=(1, 2, 103.97, 104.3)):
-	s = api.get_states(bbox=bbox)
-	ds = str(s).replace("   ","")
-	#print("In raw form, states and time are:",ds)
-	return ds
-	
-states = getFlightStates()
+s = api.get_states(bbox=(1, 2, 103.97, 104.1))
+ds = str(s).replace("   ","")
+print("DS is:")
+print(ds)
+print("Done printing ds")
+
 print("Processing...\n")
 '''Building 2 functions just to fit the API outputs...'''
 def StateVector(data):
@@ -18,11 +17,11 @@ def StateVector(data):
 def dict_values(data):
 	return data
 
-processed = eval(states)
-
-for key, val in processed.items():
-	print(key,":",val)
-print("Done evaluating data in Python.")
+processed = eval(ds)
+for keys, items in processed.items():
+	for i in items:
+		print(i)
+print("Done processing.")
 
 #arrivals = api.get_arrivals_by_airport('WSSS',1690470000,1690478600)
 #for item in arrivals:
