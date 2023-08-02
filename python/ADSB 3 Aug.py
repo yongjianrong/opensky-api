@@ -12,7 +12,9 @@ from datetime import datetime
 now = datetime.now()
 
 current_time = now.strftime("%H:%M:%S")
+hour = eval(current_time[0:2])
 print("Current Time =", current_time)
+print("Hour:", hour)
 
 def df_to_geojson(df, properties, lat='latitude', lon='longitude'):
     # create a new python dict to contain our geojson data, using geojson format
@@ -48,8 +50,8 @@ def getFlightBox(bbox=(1.0, 1.5, 103.9, 104.1)):
     return ds
 
 # State 1: Get flights within a box
-latwidth = 0.4
-lonwidth = 0.4
+latwidth = 0.4 + 1-hour/24
+lonwidth = 0.4 + 1-hour/24
 
 latleft = 1.0
 latright = latleft+latwidth
@@ -88,7 +90,7 @@ def getAircraftTrack(aircraft):
 aircraft1 = '76cd72'
 '''Function 1: Get Aircraft Track by ICAO24 Code'''
 #getAircraftTrack(aircraft1)
-'''Parsing States into Pandas DataFrame'''
+'''Function 2: Get all flights within box'''
 print(f"Getting all flights from {lonleft},{latleft} to {lonright},{latright}")
 processed = eval(states)
 flights = processed['states']
@@ -138,10 +140,10 @@ plt.savefig('Flights WSSS', dpi=250)
 plt.show()
 print("Plotted successfully")
 
-# '''Other codes (Future works)'''
-# #arrivals = api.get_arrivals_by_airport('WSSS',1690550000,1690558600)
-# #for item in arrivals:
-# #	print(item)
+'''Other codes (Future works)'''
+arrivals = api.get_arrivals_by_airport('WSSS',1690550000,1690558600)
+for item in arrivals:
+	print(item)
 # # arrivals = api.get_flights_from_interval(1690550000,1690550010)
 
 # #print(arrivals)
@@ -153,3 +155,5 @@ print("Plotted successfully")
 # #states = api.get_states(bbox=(1, 2, 103.97, 104.1))
 # #for s in states.states:
 #    print("(%r, %r, %r, %r)" % (s.longitude, s.latitude, s.baro_altitude, s.velocity))
+
+flights = api.get_flights_by_aircraft("76cef0",1690994209,1690994709)
